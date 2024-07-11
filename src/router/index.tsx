@@ -1,9 +1,13 @@
 import App from '@/layouts/App.tsx'
-import EmployeeForm from '@/pages/EmployeeForm.tsx'
-import EmployeeList from '@/pages/EmployeeList.tsx'
+import EmployeeAdd from '@/pages/EmployeeAdd'
+import EmployeeList from '@/pages/EmployeeList'
 import NotFound from '@/pages/NotFound'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 
+/**
+ * Defines the router configuration for the application.
+ * @returns {BrowserRouter} The configured router.
+ */
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -19,7 +23,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/employees/new',
-                element: <EmployeeForm />,
+                element: <EmployeeAdd />,
             },
             {
                 path: '*',

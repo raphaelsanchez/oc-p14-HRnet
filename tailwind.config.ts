@@ -12,6 +12,9 @@ export default {
             },
         },
         extend: {
+            colors: {
+                primary: '#93AD18',
+            },
             keyframes: {
                 'accordion-down': {
                     from: { height: '0' },

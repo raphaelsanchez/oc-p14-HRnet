@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom'
 
+/**
+ * Renders the NotFound component.
+ * This component is displayed when a user tries to access a resource that does not exist.
+ */
 export default function NotFound() {
     return (
         <section className="grid h-full place-content-center gap-4 text-center">

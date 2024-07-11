@@ -1,24 +1,17 @@
-import Logo from '@/assets/logo.png'
 import { Link } from 'react-router-dom'
+import { Logo } from './ui/logo'
 
+/**
+ * Renders the header component.
+ * @returns The rendered header component.
+ */
 function Header() {
     return (
-        <header className="p-4">
+        <nav className="flex items-center justify-between bg-white p-4 shadow">
             <Link to={'/'} className="flex items-center gap-2">
-                <img
-                    src={Logo}
-                    alt="Wealth Health logo"
-                    width={40}
-                    height={40}
-                />
-                <span className="text-xl font-bold">
-                    HRnet{' '}
-                    <small className="font-normal text-slate-500">
-                        by Wealth Health
-                    </small>
-                </span>
+                <Logo />
             </Link>
-        </header>
+        </nav>
     )
 }
 
