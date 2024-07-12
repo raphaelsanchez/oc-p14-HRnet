@@ -1,33 +1,45 @@
-import { EmployeeType } from '@/types/employeeType.ts'
+import { fetchEmployees } from '@/api/fetchEmployees'
+import { EmployeeType } from '@/types/employeeType'
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-type EmployeesStoreType = {
-    employees: EmployeeType[]
-    fetchEmployees: () => Promise<void>
+type EmployeesStoreActions = {
+    initializeEmployees: () => Promise<void>
     addEmployee: (employee: EmployeeType) => void
 }
 
-export const useEmployeesStore = create<EmployeesStoreType>()((set, get) => ({
-    employees: [],
-    fetchEmployees: async () => {
-        const currentEmployees = get().employees
+type EmployeesStoreType = {
+    employees: EmployeeType[]
+} & EmployeesStoreActions
 
-        // If there are no employees in the store, load them from the mock file
-        // TODO: Load employees from the API
-        if (currentEmployees.length === 0) {
-            try {
-                // Load the employees from the mock file
-                const employees: EmployeeType[] = await import(
-                    '../__mocks__/employees.json'
-                ).then((module) => module.default)
+/**
+ * Custom hook for managing the employees store.
+ */
+export const useEmployeesStore = create<EmployeesStoreType>()(
+    persist(
+        (set, get) => ({
+            employees: [],
 
-                // Set the employees in the store
-                set({ employees })
-            } catch (error) {
-                console.error('Error loading employees:', error)
-            }
-        }
-    },
-    addEmployee: (employee: EmployeeType) =>
-        set((state) => ({ employees: [...state.employees, employee] })),
-}))
+            /**
+             * Initializes the employees if they haven't been fetched yet.
+             */
+            initializeEmployees: async () => {
+                const currentEmployees = get().employees
+                if (currentEmployees.length === 0) {
+                    const employees = await fetchEmployees()
+                    set({ employees })
+                }
+            },
+
+            /**
+             * Adds a new employee to the store.
+             * @param employee - The employee to add.
+             */
+            addEmployee: (employee: EmployeeType) =>
+                set((state) => ({
+                    employees: [...state.employees, employee],
+                })),
+        }),
+        { name: 'hrnet-employees-storage' },
+    ),
+)

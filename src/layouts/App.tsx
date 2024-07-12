@@ -9,12 +9,12 @@ import { Outlet } from 'react-router-dom'
  * Renders the header, outlet, and footer components.
  */
 export default function App() {
-    const { fetchEmployees } = useEmployeesStore()
+    const { initializeEmployees } = useEmployeesStore()
 
-    //. Fetch employees on mount to populate the store.
+    // Initialize employees when the application loads and populate the store.
     useEffect(() => {
-        fetchEmployees()
-    }, [fetchEmployees])
+        initializeEmployees()
+    }, [initializeEmployees])
 
     return (
         <>
