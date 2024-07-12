@@ -10,7 +10,7 @@ import { ArrowUpDown } from 'lucide-react'
  * @returns {string} The button style classes.
  */
 const getButtonStyle = (isSorted: boolean) =>
-    isSorted ? 'text-slate-900 bg-slate-100 font-bold' : ''
+    isSorted ? 'text-slate-900 bg-slate-100 font-bold px-2' : 'px-2'
 
 /**
  * Creates a reusable column header component.

@@ -4,6 +4,7 @@ import {
     SortingState,
     flexRender,
     getCoreRowModel,
+    getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
@@ -18,6 +19,7 @@ import {
     TableRow,
 } from '@/components/ui/table'
 import { useState } from 'react'
+import DebouncedInput from './debouncedInput'
 import PageSelector from './pageSelector'
 import PageSizeSelector from './pageSizeSelector'
 import PaginationButtons from './paginationButton'
@@ -46,6 +48,7 @@ export function DataTable<TData, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    const [globalFilter, setGlobalFilter] = useState('')
     const [sorting, setSorting] = useState<SortingState>([])
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -73,12 +76,14 @@ export function DataTable<TData, TValue>({
         state: {
             pagination,
             sorting,
+            globalFilter,
         },
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         onPaginationChange: setPagination,
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
     })
 
     // The index of the first row on the current page.
@@ -98,6 +103,15 @@ export function DataTable<TData, TValue>({
      */
     return (
         <>
+            <div className="mt-4">
+                <DebouncedInput
+                    type="search"
+                    value={globalFilter ?? ''}
+                    onChange={(value) => setGlobalFilter(String(value))}
+                    className="max-w-sm"
+                    placeholder="Search in all columns..."
+                />
+            </div>
             <div className="my-4 rounded-md border bg-white">
                 <Table>
                     <TableHeader>
