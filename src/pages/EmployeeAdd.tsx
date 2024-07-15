@@ -1,10 +1,13 @@
+import EmployeeCreatedDialog from '@/components/employees/EmployeeCreatedDialog' // Nouveau composant pour le dialogue
 import { EmployeeForm } from '@/components/employees/EmployeeForm'
+import { useState } from 'react'
 
 /**
- * Renders the EmployeeAdd page component.
- * This component displays a form to add a new employee.
+ * Renders a form to add a new employee and a dialog on submission.
  */
-export default function EmployeeAdd() {
+const EmployeeAdd = () => {
+    const [alertDialogOpen, setAlertDialogOpen] = useState(false)
+
     return (
         <main className="container mx-auto px-4 py-8">
             <header>
@@ -12,7 +15,12 @@ export default function EmployeeAdd() {
                     Add new employee
                 </h1>
             </header>
-            <EmployeeForm />
+            <EmployeeForm onFormSubmit={() => setAlertDialogOpen(true)} />
+            <EmployeeCreatedDialog
+                open={alertDialogOpen}
+                onClose={() => setAlertDialogOpen(false)}
+            />
         </main>
     )
 }
+export default EmployeeAdd

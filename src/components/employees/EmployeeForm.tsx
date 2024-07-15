@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
 import { Button } from '../ui/button'
@@ -30,15 +30,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from '../ui/select'
+
+interface EmployeeFormProps {
+    onFormSubmit: () => void
+}
+
 /**
  * Component for rendering a form to add an employee.
  *
  * @returns The rendered EmployeeForm component.
  */
-export function EmployeeForm() {
-    // Define navigation
-    const navigate = useNavigate()
-
+export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
     // Define form
     const form = useForm<z.infer<typeof employeesFormSchema>>({
         resolver: zodResolver(employeesFormSchema),
@@ -69,8 +71,11 @@ export function EmployeeForm() {
         }
         useEmployeesStore.getState().addEmployee(employeeWithId)
 
-        // Redirect to employees list
-        navigate('/employees')
+        // Open the alert dialog from the parent component
+        onFormSubmit()
+
+        // Reset all fields
+        form.reset()
     }
 
     return (
@@ -243,7 +248,7 @@ export function EmployeeForm() {
                                 <FormLabel>State</FormLabel>
                                 <Select
                                     onValueChange={field.onChange}
-                                    defaultValue={field.value}
+                                    value={field.value || ''}
                                 >
                                     <FormControl>
                                         <SelectTrigger>
@@ -304,7 +309,7 @@ export function EmployeeForm() {
                                 <FormLabel>Department</FormLabel>
                                 <Select
                                     onValueChange={field.onChange}
-                                    defaultValue={field.value}
+                                    value={field.value || ''}
                                 >
                                     <FormControl>
                                         <SelectTrigger>
