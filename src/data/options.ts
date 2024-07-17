@@ -1,7 +1,29 @@
+interface Department {
+    name: string
+}
+
 interface State {
     name: string
     abbreviation: string
 }
+
+export const departments: Department[] = [
+    {
+        name: 'Sales',
+    },
+    {
+        name: 'Marketing',
+    },
+    {
+        name: 'Engineering',
+    },
+    {
+        name: 'Human Ressources',
+    },
+    {
+        name: 'Legal',
+    },
+]
 
 /**
  * Represents an array of states.
