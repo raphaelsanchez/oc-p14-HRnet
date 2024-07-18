@@ -3,6 +3,7 @@ export default {
     darkMode: ['class'],
     content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
     prefix: '',
+    safelist: ['ps-8'],
     theme: {
         container: {
             center: true,
