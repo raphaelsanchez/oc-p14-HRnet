@@ -1,5 +1,5 @@
 'user client'
-import { states } from '@/data/states'
+import { departments, states } from '@/data/options'
 import { cn } from '@/lib/utils'
 import { employeesFormSchema } from '@/schemas/employeesFormSchema'
 import { useEmployeesStore } from '@/store/useEmployeesStore'
@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
+import SelectBox from '../SelectBox'
 import { Button } from '../ui/button'
 import { Calendar } from '../ui/calendar'
 import {
@@ -35,6 +36,11 @@ interface EmployeeFormProps {
     onFormSubmit: () => void
 }
 
+type GenericOption = {
+    name: string
+    value: string
+}
+
 /**
  * Component for rendering a form to add an employee.
  *
@@ -56,6 +62,12 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
             startDate: undefined,
         },
     })
+
+    // Conversion de State[] en GenericOption[]
+    const statesOptions: GenericOption[] = states.map((state) => ({
+        name: state.name,
+        value: state.abbreviation,
+    }))
 
     /**
      * Handles the form submission event.
@@ -246,31 +258,16 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                                 className={`${form.formState.errors.state ? 'rounded border border-red-500 bg-red-50 px-4 py-2' : ''}`}
                             >
                                 <FormLabel>State</FormLabel>
-                                <Select
-                                    onValueChange={field.onChange}
+                                <SelectBox
+                                    name={field.name}
+                                    options={statesOptions}
+                                    onChangeValue={field.onChange}
                                     value={field.value || ''}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select your state" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {states.map((state) => {
-                                            return (
-                                                <SelectItem
-                                                    key={state.abbreviation}
-                                                    value={state.name}
-                                                >
-                                                    {state.name}{' '}
-                                                    <small className="text-neutral-500">
-                                                        ({state.abbreviation})
-                                                    </small>
-                                                </SelectItem>
-                                            )
-                                        })}
-                                    </SelectContent>
-                                </Select>
+                                    defaultValue={{
+                                        name: 'Select a state',
+                                        value: '',
+                                    }}
+                                />
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -317,16 +314,13 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {[
-                                            'Sales',
-                                            'Marketing',
-                                            'Engineering',
-                                            'Human Ressources',
-                                            'Legal',
-                                        ].map((d) => {
+                                        {departments.map((department) => {
                                             return (
-                                                <SelectItem key={d} value={d}>
-                                                    {d}
+                                                <SelectItem
+                                                    key={department.name}
+                                                    value={department.name}
+                                                >
+                                                    {department.name}
                                                 </SelectItem>
                                             )
                                         })}
