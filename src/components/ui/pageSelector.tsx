@@ -26,7 +26,10 @@ const PageSelector: React.FC<PageSelectorProps> = ({
     setPageIndex,
 }) => (
     <div className="flex w-[100px] items-center justify-center gap-1 text-sm">
-        <span>Page</span>
+        <label htmlFor="pageInput" className="sr-only">
+            Page Number
+        </label>
+        <span id="pageLabel">Page</span>
         <Input
             type="number"
             value={pageIndex + 1 || ''}
@@ -39,8 +42,13 @@ const PageSelector: React.FC<PageSelectorProps> = ({
             min={1}
             max={pageCount}
             className="h-8 w-10 rounded border p-1 text-center"
+            aria-labelledby="pageLabel"
+            aria-valuemin={1}
+            aria-valuemax={pageCount}
+            aria-valuenow={pageIndex + 1}
+            id="pageInput"
         />
-        <span>
+        <span aria-live="polite">
             {' of '}
             {pageCount.toLocaleString()}
         </span>

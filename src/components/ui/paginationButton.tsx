@@ -33,6 +33,7 @@ const PaginationButtons: React.FC<PaginationButtonsProps> = ({ table }) => (
             onClick={() => table.firstPage()}
             disabled={!table.getCanPreviousPage()}
             className="h-8 w-8 p-1"
+            aria-label="First page"
         >
             <ChevronsLeft />
         </Button>
@@ -43,6 +44,7 @@ const PaginationButtons: React.FC<PaginationButtonsProps> = ({ table }) => (
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
             className="h-8 w-8 p-1"
+            aria-label="Previous page"
         >
             <ChevronLeft />
         </Button>
@@ -53,6 +55,7 @@ const PaginationButtons: React.FC<PaginationButtonsProps> = ({ table }) => (
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
             className="h-8 w-8 p-1"
+            aria-label="Next page"
         >
             <ChevronRight />
         </Button>
@@ -63,6 +66,7 @@ const PaginationButtons: React.FC<PaginationButtonsProps> = ({ table }) => (
             onClick={() => table.lastPage()}
             disabled={!table.getCanNextPage()}
             className="h-8 w-8 p-1"
+            aria-label="Last page"
         >
             <ChevronsRight />
         </Button>

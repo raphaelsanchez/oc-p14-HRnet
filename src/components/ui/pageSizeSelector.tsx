@@ -5,7 +5,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 /**
  * Represents the props for the PageSizeSelector component.
@@ -29,33 +29,50 @@ interface PageSizeSelectorProps {
  * @param {Function} props.setPagination - The function to update the pagination state.
  * @returns {JSX.Element} The rendered PageSizeSelector component.
  */
+
+const pageSizeOptions = [10, 25, 50, 100]
+
 const PageSizeSelector: React.FC<PageSizeSelectorProps> = ({
     pageSize,
     setPagination,
-}) => (
-    <div className="flex items-center space-x-2">
-        <p className="text-sm">Items per page</p>
-        <Select
-            onValueChange={(value) => {
-                const newSize = Number(value)
-                setPagination((prev) => ({
-                    ...prev,
-                    pageSize: newSize,
-                }))
-            }}
-        >
-            <SelectTrigger className="h-8">
-                <SelectValue placeholder={pageSize.toString()} />
-            </SelectTrigger>
-            <SelectContent>
-                {[10, 25, 50, 100].map((size) => (
-                    <SelectItem key={size} value={size.toString()}>
-                        {size}
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
-    </div>
-)
+}) => {
+    const options = useMemo(() => pageSizeOptions, [])
+
+    return (
+        <div className="flex items-center space-x-2">
+            <label
+                id="pageSizeLabel"
+                className="text-sm"
+                htmlFor="pageSizeSelect"
+            >
+                Items per page
+            </label>
+            <Select
+                onValueChange={(value) => {
+                    const newSize = Number(value)
+                    setPagination((prev) => ({
+                        ...prev,
+                        pageSize: newSize,
+                    }))
+                }}
+            >
+                <SelectTrigger
+                    className="h-8 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    id="pageSizeSelect"
+                    aria-labelledby="pageSizeLabel"
+                >
+                    <SelectValue placeholder={pageSize.toString()} />
+                </SelectTrigger>
+                <SelectContent>
+                    {options.map((size) => (
+                        <SelectItem key={size} value={size.toString()}>
+                            {size}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        </div>
+    )
+}
 
 export default PageSizeSelector

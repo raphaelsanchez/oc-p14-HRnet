@@ -95,12 +95,13 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
             <form
                 className="mb-4 mt-8 space-y-8"
                 onSubmit={form.handleSubmit(onSubmit)}
+                aria-label="Add employee form"
             >
                 <fieldset
                     id="PersonalInformations"
                     className="space-y-4 rounded border border-slate-200 bg-white p-4 pt-0"
                 >
-                    <legend className="rounded bg-slate-200 px-2 py-0 text-sm font-semibold text-slate-500">
+                    <legend className="rounded bg-slate-200 px-2 py-0 text-sm font-semibold text-slate-600">
                         Personal informations
                     </legend>
                     <FormField
@@ -155,6 +156,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                                                     !field.value &&
                                                         'text-slate-500',
                                                 )}
+                                                aria-label="Select date of birth"
                                             >
                                                 {field.value ? (
                                                     format(
@@ -211,7 +213,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                     id="Address"
                     className="space-y-4 rounded-md border border-slate-200 bg-white p-4 pt-0"
                 >
-                    <legend className="rounded bg-slate-200 px-2 py-0 text-sm font-semibold text-slate-500">
+                    <legend className="rounded bg-slate-200 px-2 py-0 text-sm font-semibold text-slate-600">
                         Address
                     </legend>
                     <FormField
@@ -257,7 +259,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                             <FormItem
                                 className={`${form.formState.errors.state ? 'rounded border border-red-500 bg-red-50 px-4 py-2' : ''}`}
                             >
-                                <FormLabel>State</FormLabel>
+                                <FormLabel htmlFor="state">State</FormLabel>
                                 <SelectBox
                                     name={field.name}
                                     options={statesOptions}
@@ -293,7 +295,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                     id="InternalInformations"
                     className="space-y-4 rounded border border-slate-200 bg-white p-4 pt-0"
                 >
-                    <legend className="rounded bg-slate-200 px-2 py-0 text-sm font-semibold text-slate-500">
+                    <legend className="rounded bg-slate-200 px-2 py-0 text-sm font-semibold text-slate-600">
                         Internal informations
                     </legend>
                     <FormField
@@ -309,16 +311,22 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                                     value={field.value || ''}
                                 >
                                     <FormControl>
-                                        <SelectTrigger>
+                                        <SelectTrigger aria-label="Select a department">
                                             <SelectValue placeholder="Select a department" />
                                         </SelectTrigger>
                                     </FormControl>
-                                    <SelectContent>
+                                    <SelectContent role="listbox">
                                         {departments.map((department) => {
                                             return (
                                                 <SelectItem
                                                     key={department.name}
                                                     value={department.name}
+                                                    aria-label={department.name}
+                                                    aria-selected={
+                                                        field.value ===
+                                                        department.name
+                                                    }
+                                                    role="option"
                                                 >
                                                     {department.name}
                                                 </SelectItem>
@@ -348,6 +356,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                                                     !field.value &&
                                                         'text-slate-500',
                                                 )}
+                                                aria-label="Select date of start"
                                             >
                                                 {field.value ? (
                                                     format(
@@ -390,7 +399,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                 <footer className="flex flex-row-reverse items-center justify-between">
                     <Button type="submit">Add employee</Button>
                     <Button asChild variant="secondary">
-                        <Link to={'/employees'}>Cancel</Link>
+                        <Link to={'/employees'}>Return to employee list</Link>
                     </Button>
                 </footer>
             </form>
