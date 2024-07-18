@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SelectBox } from '@raphysan/selectbox-react'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
+import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
@@ -36,9 +37,13 @@ interface EmployeeFormProps {
     onFormSubmit: () => void
 }
 
-type GenericOption = {
+type StateOption = {
     name: string
     value: string
+}
+
+type DepartementOption = {
+    name: string
 }
 
 /**
@@ -63,11 +68,23 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
         },
     })
 
-    // Conversion de State[] en GenericOption[]
-    const statesOptions: GenericOption[] = states.map((state) => ({
-        name: state.name,
-        value: state.abbreviation,
-    }))
+    // Memoize the options for the select boxes
+    const statesOptions: StateOption[] = useMemo(
+        () =>
+            states.map((state) => ({
+                name: state.name,
+                value: state.abbreviation,
+            })),
+        [],
+    )
+
+    const departmentsOptions: DepartementOption[] = useMemo(
+        () =>
+            departments.map((department) => ({
+                name: department.name,
+            })),
+        [],
+    )
 
     /**
      * Handles the form submission event.
@@ -316,22 +333,26 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent role="listbox">
-                                        {departments.map((department) => {
-                                            return (
-                                                <SelectItem
-                                                    key={department.name}
-                                                    value={department.name}
-                                                    aria-label={department.name}
-                                                    aria-selected={
-                                                        field.value ===
-                                                        department.name
-                                                    }
-                                                    role="option"
-                                                >
-                                                    {department.name}
-                                                </SelectItem>
-                                            )
-                                        })}
+                                        {departmentsOptions.map(
+                                            (department) => {
+                                                return (
+                                                    <SelectItem
+                                                        key={department.name}
+                                                        value={department.name}
+                                                        aria-label={
+                                                            department.name
+                                                        }
+                                                        aria-selected={
+                                                            field.value ===
+                                                            department.name
+                                                        }
+                                                        role="option"
+                                                    >
+                                                        {department.name}
+                                                    </SelectItem>
+                                                )
+                                            },
+                                        )}
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />

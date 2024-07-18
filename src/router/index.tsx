@@ -1,8 +1,14 @@
-import App from '@/layouts/App.tsx'
-import EmployeeAdd from '@/pages/EmployeeAdd'
-import EmployeeList from '@/pages/EmployeeList'
-import NotFound from '@/pages/NotFound'
+/* eslint-disable react-refresh/only-export-components */
+import Loading from '@/components/ui/loading'
+import React, { Suspense } from 'react'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
+
+// Using React.lazy for lazy loading
+// eslint-disable-next-line react-refresh/only-export-components
+const App = React.lazy(() => import('@/layouts/App.tsx'))
+const EmployeeAdd = React.lazy(() => import('@/pages/EmployeeAdd'))
+const EmployeeList = React.lazy(() => import('@/pages/EmployeeList'))
+const NotFound = React.lazy(() => import('@/pages/NotFound'))
 
 /**
  * Defines the router configuration for the application.
@@ -19,15 +25,27 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/employees',
-                element: <EmployeeList />,
+                element: (
+                    <Suspense fallback={<Loading />}>
+                        <EmployeeList />
+                    </Suspense>
+                ),
             },
             {
                 path: '/employees/new',
-                element: <EmployeeAdd />,
+                element: (
+                    <Suspense fallback={<Loading />}>
+                        <EmployeeAdd />
+                    </Suspense>
+                ),
             },
             {
                 path: '*',
-                element: <NotFound />,
+                element: (
+                    <Suspense fallback={<Loading />}>
+                        <NotFound />
+                    </Suspense>
+                ),
             },
         ],
     },

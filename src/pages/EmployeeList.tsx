@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { DataTable as EmployeesTable } from '@/components/ui/data-table'
 import { useEmployeesStore } from '@/store/useEmployeesStore'
 import { Plus } from 'lucide-react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
 /**
@@ -11,7 +12,14 @@ import { Link } from 'react-router-dom'
  * @returns The rendered EmployeeList component.
  */
 export default function EmployeeList() {
+    // Retrieve the employees from the store.
     const { employees } = useEmployeesStore()
+
+    // Memoize the EmployeesTable component to prevent unnecessary re-renders.
+    const memoizedEmployeesTable = useMemo(
+        () => <EmployeesTable columns={EmployeeColumns} data={employees} />,
+        [employees],
+    )
 
     return (
         <main className="container mx-auto px-4 py-8">
@@ -28,7 +36,7 @@ export default function EmployeeList() {
                     </Link>
                 </Button>
             </header>
-            <EmployeesTable columns={EmployeeColumns} data={employees} />
+            {memoizedEmployeesTable}
         </main>
     )
 }
