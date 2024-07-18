@@ -25,13 +25,6 @@ import {
 } from '../ui/form'
 import { Input } from '../ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '../ui/select'
 
 interface EmployeeFormProps {
     onFormSubmit: () => void
@@ -323,38 +316,17 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onFormSubmit }) => {
                                 className={`${form.formState.errors.department ? 'rounded border border-red-500 bg-red-50 px-4 py-2' : ''}`}
                             >
                                 <FormLabel>Department</FormLabel>
-                                <Select
-                                    onValueChange={field.onChange}
+                                <SelectBox
+                                    name={field.name}
+                                    options={departmentsOptions}
+                                    onChangeValue={field.onChange}
                                     value={field.value || ''}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger aria-label="Select a department">
-                                            <SelectValue placeholder="Select a department" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent role="listbox">
-                                        {departmentsOptions.map(
-                                            (department) => {
-                                                return (
-                                                    <SelectItem
-                                                        key={department.name}
-                                                        value={department.name}
-                                                        aria-label={
-                                                            department.name
-                                                        }
-                                                        aria-selected={
-                                                            field.value ===
-                                                            department.name
-                                                        }
-                                                        role="option"
-                                                    >
-                                                        {department.name}
-                                                    </SelectItem>
-                                                )
-                                            },
-                                        )}
-                                    </SelectContent>
-                                </Select>
+                                    searchable={false}
+                                    defaultValue={{
+                                        name: 'Select a department',
+                                        value: '',
+                                    }}
+                                />
                                 <FormMessage />
                             </FormItem>
                         )}

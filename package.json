@@ -18,7 +18,7 @@
         "@radix-ui/react-popover": "^1.1.1",
         "@radix-ui/react-select": "^2.1.1",
         "@radix-ui/react-slot": "^1.1.0",
-        "@raphysan/selectbox-react": "^0.1.6",
+        "@raphysan/selectbox-react": "^0.1.8",
         "@tanstack/react-table": "^8.19.2",
         "@types/uuid": "^10.0.0",
         "class-variance-authority": "^0.7.0",
