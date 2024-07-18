@@ -1,4 +1,4 @@
-import HRnetLogo from '@/assets/logo.png'
+import HRnetLogo from '@/assets/logo.svg'
 export function Logo() {
     return (
         <>
