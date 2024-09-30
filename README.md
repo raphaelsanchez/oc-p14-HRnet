@@ -6,7 +6,7 @@
 
 Projet fictif dans le cadre de la formation **Développeur d'application - JavaScript React** d'Openclassrooms.
 
-Une [version de démo](https://rs-p14-hrnet.netlify.app/employees) est déployée sur Netlify.
+Une [version de démo](https://rs-p14-hrnet.netlify.app) est déployée sur Netlify.
 
 ## Contexte
 
